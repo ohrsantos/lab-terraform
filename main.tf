@@ -3,7 +3,7 @@ variable "region" {}
 provider "aws" {
   region                  = "${var.region}"
   shared_credentials_file = "/home/ubuntu/.aws/credentials"
-  profile                 = "sa.orlando.santos.auto2"
+  profile                 = "orlando.santos.auto2"
 }
 
 
@@ -21,6 +21,7 @@ variable "am_key_pairs" {
 
   default = {
     "sa-east-1" = "auto2-orlando-santos-keypair-sa-01"
+    "us-east-1" = "auto2-orlando-santos-keypair-us-west-1-01"
     "us-west-1" = "auto2-orlando-santos-keypair-us-west-1-01"
   }
 }
@@ -28,9 +29,9 @@ resource "aws_security_group" "ssh" {
     name = "allow_ssh"
     description = "Allow SSH connections"
         ingress {
-            from_port = 22
-            to_port = 22
-            protocol = "tcp"
+            from_port = 0
+            to_port = 0
+            protocol = "-1"
             cidr_blocks = ["0.0.0.0/0"] 
         }
 
@@ -46,7 +47,6 @@ resource "aws_instance" "box-tst" {
     ami = "${lookup(var.am_images, var.region)}"
     instance_type = "t2.micro"
     key_name      =  "${lookup(var.am_key_pairs, var.region)}"
-    #key_name      =  "auto2-orlando-santos-keypair-sa-01"
     vpc_security_group_ids = ["${aws_security_group.ssh.id}"]
     tags {
         Name = "Test Machine"
