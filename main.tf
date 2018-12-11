@@ -12,6 +12,7 @@ variable "am_images" {
 
   default = {
     "sa-east-1" = "ami-0318cb6e2f90d688b"
+    "us-east-2" = "ami-0f65671a86f061fcd"
     "us-west-1" = "ami-0ad16744583f21877"
   }
 }
@@ -22,6 +23,7 @@ variable "am_key_pairs" {
   default = {
     "sa-east-1" = "auto2-orlando-santos-keypair-sa-01"
     "us-east-1" = "auto2-orlando-santos-keypair-us-west-1-01"
+    "us-east-2" = "auto2-us-east-2-ohrs"
     "us-west-1" = "auto2-orlando-santos-keypair-us-west-1-01"
   }
 }
@@ -67,7 +69,8 @@ resource "aws_instance" "box-tst" {
         connection {
              type     = "ssh"
              user     = "ubuntu"
-             private_key = "${file("/home/ubuntu/.aws/auto2-orlando-santos-keypair-sa-01.pem")}"
+             private_key = "${file("/home/ubuntu/.aws/auto2-us-east-2-ohrs.pem")}"
+             #private_key = "${file("/home/ubuntu/.aws/auto2-orlando-santos-keypair-sa-01.pem")}"
        }
 
 
